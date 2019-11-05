@@ -1,0 +1,28 @@
+java -jar spring-cloud-dataflow-server-local-1.3.0.M2.jar \
+        --spring.datasource.url=jdbc:postgresql://localhost:5432/<database-name> \
+        --spring.datasource.username=<username> \
+        --spring.datasource.password=<password> \
+        --spring.datasource.driver-class=org.postgresql.Driver \
+        --spring.rabbitmq.host=127.0.0.1 \
+        --spring.rabbitmq.port=5672 \
+        --spring.rabbitmq.username=guest \
+        --spring.rabbitmq.password=guest
+
+
+
+java -jar spring-cloud-dataflow-shell-1.3.0.BUILD-SNAPSHOT.jar
+
+
+app list
+
+
+
+stream create --definition --name s3Test "file --directory=F:\\Dev\\test --fixed-delay=5 | s3stats | s3 --cloud.aws.stack.auto=false \
+                --cloud.aws.credentials.accessKey=<accessKey> \
+                --cloud.aws.credentials.secretKey=<secretKey> \
+                --cloud.aws.region.static=us-east-1 \
+                --s3.bucket=<bucket-name> \
+                --s3.key-expression=headers.file_name \
+                --s3.acl=PublicReadWrite"
+
+stream deploy s3Test
